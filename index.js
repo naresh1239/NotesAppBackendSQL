@@ -26,7 +26,7 @@ app.use(cookieParser());
 //   });
   
 app.use(cors({
-    origin: 'http://localhost:5173',  // or your actual frontend domain
+    origin: 'https://sqlnotes.netlify.app',  // or your actual frontend domain
     credentials: true                 // 👈 ALLOW cookies to be sent
   }));
 // Parse application/x-www-form-urlencoded
@@ -121,8 +121,8 @@ app.post('/Login', validate(loginSchema), async (req, res) => {
 
       res.cookie('token', token, {
         httpOnly: true,       
-        secure: false,        
-        sameSite: 'lax',      
+        secure: true,  
+        sameSite: 'None',          
         maxAge: 7 * 24 * 60 * 60 * 1000 
     });
 

@@ -13,7 +13,7 @@ const cors = require('cors');
 router.use(cookieParser());
 
 router.use(cors({
-    origin: 'http://localhost:5173',  // or your actual frontend domain
+    origin: ['http://localhost:5173','https://sqlnotes.netlify.app'],  // or your actual frontend domain
     credentials: true                 // 👈 ALLOW cookies to be sent
   }));
 
@@ -104,7 +104,7 @@ router.post("/CreateNotes", authMiddleware,(req, res) => {
           console.error('Error inserting note into database:', err);
           return res.status(500).json({ status: 'Error inserting note into database' });
         } else {
-          console.log('Note saved to database:', result);
+          console.log('Note saved to database:');
           res.json({ status: 'Note saved successfully', id: id });
         }
       });
