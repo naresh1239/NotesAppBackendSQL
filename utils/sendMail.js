@@ -8,7 +8,6 @@ const sendMailToUser = async (res, otp, email, username , type) => {
     const transporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
       port: 587,
-      secure: false, // use TLS
       auth: {
         user: process.env.email,     // This should be your Brevo login email
         pass: process.env.EMpass,    // This should be the Brevo SMTP key
