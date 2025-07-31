@@ -60,7 +60,7 @@ app.post('/sigIn', validate(userSchema), async(req, res) => {
     db.query(findquery, [email,username], (error, result)=>{
 
         if(error){
-            return res.status(500).json({message : 'something went wrong', error : err})
+            return res.status(500).json({message : 'something went wrong', error : error})
         }
 
         if(result.length > 0){
