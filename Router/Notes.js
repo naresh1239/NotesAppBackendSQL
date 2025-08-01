@@ -161,17 +161,21 @@ router.delete('/DeleteNote',authMiddleware, (req, res) => {
         res.status(200).json({ status: 'Note deleted successfully' });
     
         
-        if (path) {
-            fs.unlink(path, (err) => {
-                if (err) {
-                    console.warn('File deletion failed (not critical):', err.message);
-                } else {
-                    console.log(`File deleted: ${path}`);
-                }
-            });
-        } else {
-            console.warn('notesHTML path is undefined or invalid:', path);
-        }
+        if (path && typeof path === 'object' && path.path) {
+          path = path.path; // extract the actual string
+      }
+      
+      if (typeof path === 'string') {
+          fs.unlink(path, (err) => {
+              if (err) {
+                  console.warn('File deletion failed (not critical):', err.message);
+              } else {
+                  console.log(`File deleted: ${path}`);
+              }
+          });
+      } else {
+          console.warn('notesHTML path is undefined or invalid:', path);
+      }
     });
 
   });
