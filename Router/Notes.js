@@ -151,17 +151,29 @@ router.delete('/DeleteNote',authMiddleware, (req, res) => {
       if (err) return res.status(500).json({ error: err.message });
       if (!result[0]) return res.status(400).json({ message: "Note not found" });
 
-      fs.unlink(result[0].notesHTML, (err) => {
-          if (err) {
-              console.error('Error deleting file:', err);
-              return res.status(500).json({ status: 'Error deleting file' });
-          }
+      db.query('DELETE FROM notes WHERE notes_id = ?', [id], (error, dbResult) => {
+        if (error) {
+            console.error('Error deleting from DB:', error.message);
+            return res.status(500).json({ status: 'Error deleting note from database' });
+        }
+    
+        
+        res.status(200).json({ status: 'Note deleted successfully' });
+    
+        
+        if (path) {
+            fs.unlink(path, (err) => {
+                if (err) {
+                    console.warn('File deletion failed (not critical):', err.message);
+                } else {
+                    console.log(`File deleted: ${path}`);
+                }
+            });
+        } else {
+            console.warn('notesHTML path is undefined or invalid:', path);
+        }
+    });
 
-          db.query('DELETE FROM notes WHERE notes_id = ?', [id], (error, result) => {
-              if (error) return res.status(500).json({ status: 'Error deleting note from database' });
-              return res.status(200).json({ status: 'Note deleted successfully' });
-          });
-      });
   });
 });
 

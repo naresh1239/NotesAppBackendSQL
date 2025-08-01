@@ -26,7 +26,7 @@ app.use(cookieParser());
 //   });
   
 app.use(cors({
-    origin: 'https://sqlnotes.netlify.app',  // or your actual frontend domain
+    origin: ['https://sqlnotes.netlify.app', 'http://localhost:5173'],  // or your actual frontend domain
     credentials: true                 // 👈 ALLOW cookies to be sent
   }));
 // Parse application/x-www-form-urlencoded
