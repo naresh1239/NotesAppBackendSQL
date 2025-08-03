@@ -83,14 +83,14 @@ app.post('/sigIn', validate(userSchema), async(req, res) => {
 });
 
 app.post('/Login', validate(loginSchema), async (req, res) => {
-    const { email, password,remember } = req.body;
+    const { email,username, password,remember } = req.body;
 
-    const query = 'SELECT * FROM users WHERE email = ?';
+    const query = 'SELECT * FROM users WHERE email = ? OR username = ?';
     const isVerfied = 'SELECT isVerified FROM users WHERE email = ?'
-    db.query(query, [email], async (err, result) => {
+    db.query(query, [email,email], async (err, result) => {
         if (err) {
             console.error('Database error:', err);
-            return res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({ error: 'Internal server error db' });
         }
 
         if (result.length === 0) {
@@ -105,7 +105,7 @@ app.post('/Login', validate(loginSchema), async (req, res) => {
                 console.error('Database error:', err);
                 return res.status(500).json({ error: 'Internal server error' });
             }
-            if(result[0].isVerfied == 0){
+            if(result[0]?.isVerfied == 0){
                 return res.status(400).json({ error: 'Not a Verfied user please Verfiy your self' });
             }
 

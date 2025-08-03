@@ -76,6 +76,8 @@ router.post("/Navlinks", authMiddleware,(req, res) => {
 router.post("/CreateNotes", authMiddleware,(req, res) => {
     const { notesHTML , title ,des,isPublic,userData} = req.body; // Get the notesHTML from the request body
 
+  
+  
     // Create a unique file name based on the current timestamp
     const fileName = `document_${Date.now()}.json`; // Unique file name
     const filePath = path.join(__dirname, 'documents', fileName); // Path to save the file
