@@ -174,7 +174,17 @@ app.get('/logout', (req, res) => {
     res.clearCookie('token'); // 'token' should match the cookie name
     res.status(200).json({ success: true, message: 'Logged out' });
   });
-// Start server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+
+db.query('SELECT 1', (err, results) => {
+    if (err) {
+        console.error('❌ Failed to connect to MySQL:', err.message);
+        process.exit(1); // exit if DB is not connected
+    } else {
+        console.log('✅ Successfully connected to MySQL.');
+
+        // Start server only if DB is connected
+        app.listen(port, () => {
+            console.log(`🚀 Server running at http://localhost:${port}`);
+        });
+    }
 });
